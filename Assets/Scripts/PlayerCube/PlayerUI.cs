@@ -19,7 +19,7 @@ public class PlayerUI : MonoBehaviour
 
     private void Awake()
     {
-        winDefeatInteraction.transform.parent = null;
+        winDefeatInteraction.transform.SetParent(null);
         winDefeatInteraction.transform.position = Vector3.zero;
         Win = winDefeatInteraction.GetWinObject();
         Defeat = winDefeatInteraction.GetLoseObject();
@@ -56,12 +56,20 @@ public class PlayerUI : MonoBehaviour
 
     public void ShowLoserScreen()
     {
+        if (!GameManager.Instance.GetSelectedConfiguration().IsSinglePlayer)
+        {
+            var otherPlayerIndex = playerIndex == 0 ? 1 : 0;
+            GameplayManager.Instance.GetPlayerUI(otherPlayerIndex).ShowWinnerScreen();            
+            return;
+        }
         Defeat.SetActive(true);
+        winDefeatInteraction.UpdateScoreUI(playerIndex);
     }
 
     public void ShowWinnerScreen()
     {
         Win.SetActive(true);
+        winDefeatInteraction.UpdateScoreUI(playerIndex);
     }
 
     public void UpdateScoreUI(int playerScore)

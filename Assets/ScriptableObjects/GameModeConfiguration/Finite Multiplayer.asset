@@ -15,8 +15,8 @@ MonoBehaviour:
   GameScene: 2
   IsSinglePlayer: 0
   NumberOfPlayers: 2
-  MinCubesToWin: 10
+  MinCubesToWin: 50
   HasCubesLimit: 1
-  CubesLimit: 20
-  MinScoreToWin: 20
+  CubesLimit: 70
+  MinScoreToWin: 350
   ScoreToSum: 1

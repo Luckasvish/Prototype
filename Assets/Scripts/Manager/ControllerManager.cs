@@ -7,17 +7,23 @@ public class ControllerManager : MonoBehaviour
     public static ControllerManager Instance;
     public List<InputManager> playerInputs = new List<InputManager>();
 
-    [SerializeField] InputManager inputManagerPrefab;
-
     void Start()
     {
         Instance = this;
         DontDestroyOnLoad(this);
     }
 
+    public void Update()
+    {
+        for (int playerIndex = 0; playerIndex < playerInputs.Count; playerIndex++)
+        {
+            playerInputs[playerIndex].UpdateLogic(playerIndex);
+        }
+    }
+
     public InputManager AddPlayerInputManager()
     {
-        var _inputManager = Instantiate(inputManagerPrefab).GetComponent<InputManager>();
+        var _inputManager = new InputManager();
         playerInputs.Add(_inputManager);
         return _inputManager;
     }

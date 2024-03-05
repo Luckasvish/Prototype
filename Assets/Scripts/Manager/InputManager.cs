@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager
 {
 
     public struct Inputs
@@ -26,29 +26,25 @@ public class InputManager : MonoBehaviour
         return inputs;
     }
 
-    private void Start()
+    internal void UpdateLogic(int playerIndex)
     {
-        DontDestroyOnLoad(this);
+        Debug.Log($"playerIndex: {playerIndex}");
+        if (playerIndex == 0)
+            UpdateKeyboardPlayer0();
+        else
+            UpdateKeyboardPlayer1();
     }
 
-    private void Update()
+    void UpdateKeyboardPlayer1()
     {
-        UpdateKeyboard();
+        inputs.SouthButtonPressed = Input.GetKeyDown(KeyCode.UpArrow);
     }
 
-    void UpdateKeyboard()
+    void UpdateKeyboardPlayer0()
     {
-        inputs.ConfirmButtonPressed = Input.GetKeyDown(KeyCode.Space);
-
         inputs.SouthButtonPressed = Input.GetKeyDown(KeyCode.Space);
-        inputs.EastButtonPressed = Input.GetKeyDown(KeyCode.Backspace) | Input.GetKeyDown(KeyCode.Escape);
         inputs.NorthButtonPressed = Input.GetKeyDown(KeyCode.E);
         inputs.WestButtonPressed = Input.GetKeyDown(KeyCode.R);
 
-        inputs.LeftStickAxis = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        inputs.LeftDpadButtonPressed = Input.GetKeyDown(KeyCode.A) | Input.GetKeyDown(KeyCode.LeftArrow);
-        inputs.RightDpadButtonPressed = Input.GetKeyDown(KeyCode.D) | Input.GetKeyDown(KeyCode.RightArrow);
-        inputs.UpDpadButtonPressed = Input.GetKeyDown(KeyCode.W) | Input.GetKeyDown(KeyCode.UpArrow);
-        inputs.DownDpadButtonPressed = Input.GetKeyDown(KeyCode.S) | Input.GetKeyDown(KeyCode.DownArrow);
     }
 }

@@ -15,7 +15,7 @@ public class IdleState : BaseState
 
     public override void UpdateLogic()
     {
-        var _inputs = ControllerManager.Instance.GetPlayerInputManager(0).GetInputs();
+        var _inputs = ControllerManager.Instance.GetPlayerInputManager(data.CubesController.GetPlayerIndex()).GetInputs();
         if (_inputs.SouthButtonPressed && data.PlayerCube.GetRigidBody().velocity == Vector3.zero)
         {
             data.PlayerCube.ChangeState(data.PlayerCube.JumpState);

@@ -24,6 +24,7 @@ public class GameplayManager : MonoBehaviour
     
     public Action<int> OnDefeat;
     public bool gameFinished = false;
+    public bool hasAchievedNewHighScore = false;
 
     void Awake()
     {
@@ -45,6 +46,16 @@ public class GameplayManager : MonoBehaviour
             for (int _playerIndex = 1; _playerIndex < modeConfiguration.NumberOfPlayers; _playerIndex++)
                 ControllerManager.Instance.RemovePlayerInputManager(_playerIndex);
         }
+    }
+
+    public CubesController GetPlayerCubeController(int playerIndex)
+    {
+        return players[playerIndex];
+    }    
+    
+    public PlayerUI GetPlayerUI(int playerIndex)
+    {
+        return playerInfo[playerIndex].playerUI;
     }
 
     void InitGameMode()
@@ -92,13 +103,25 @@ public class GameplayManager : MonoBehaviour
     void Win(int playerIndex)
     {
         gameFinished = true;
+        UpdateHighScore(playerIndex);
         playerInfo[playerIndex].playerUI.ShowWinnerScreen();
     }
 
     void Defeat(int playerIndex)
     {
         gameFinished = true;
+        UpdateHighScore(playerIndex);
         playerInfo[playerIndex].playerUI.ShowLoserScreen();
+    }
+
+    void UpdateHighScore(int playerIndex)
+    {
+        var _actualScore = playerInfo[playerIndex].playerData.GetPlayerScore();
+        if (PlayerPrefs.GetInt("HighScore", 0) < _actualScore)
+        {
+            hasAchievedNewHighScore = true;
+            PlayerPrefs.SetInt("HighScore", _actualScore);
+        }
     }
 
     public bool HasCubesLimit()
@@ -109,6 +132,11 @@ public class GameplayManager : MonoBehaviour
     public int GetCubesLimit()
     {
         return modeConfiguration.CubesLimit;
+    }    
+    
+    public int GetScore(int playerIndex)
+    {
+        return playerInfo[playerIndex].playerData.GetPlayerScore();
     }
 
     /// <summary>
